@@ -1,5 +1,5 @@
 "use client";
-
+export const dynamic = "force-dynamic";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -33,7 +33,7 @@ export default function BookPage() {
 
   const allDays = useMemo(() => rangeDays(1, 25), []);
 
-  const dayParam = searchParams.get("day");
+  const day = Number(searchParams.get("day") ?? "1");
   const dayFromUrl = dayParam ? Number(dayParam) : null;
 
   const defaultDay = availableDays[0] ?? 1;
