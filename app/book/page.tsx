@@ -1,7 +1,6 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import letters from "../../data/letters.json";
@@ -22,6 +21,22 @@ function rangeDays(start: number, end: number) {
 }
 
 export default function BookPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-white text-zinc-900">
+          <div className="mx-auto max-w-[760px] px-6 py-12">
+            <div className="text-center text-sm text-zinc-600">로딩 중</div>
+          </div>
+        </main>
+      }
+    >
+      <BookPageInner />
+    </Suspense>
+  );
+}
+
+function BookPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -35,7 +50,6 @@ export default function BookPage() {
   const allDays = useMemo(() => rangeDays(1, 25), []);
 
   const dayFromUrl = Number(searchParams.get("day") ?? "1");
-
   const defaultDay = availableDays[0] ?? 1;
 
   const currentDay =
@@ -80,7 +94,6 @@ export default function BookPage() {
   return (
     <main className="min-h-screen bg-white text-zinc-900">
       <div className="mx-auto max-w-[760px] px-6 py-12">
-        {/* 제목 */}
         <header className="text-center">
           <div className="flex justify-center">
             <Link
@@ -99,7 +112,6 @@ export default function BookPage() {
             </div>
           ) : (
             <div className="text-center">
-              {/* 사진 */}
               <div className="mt-6 translate-y-[56px]">
                 <div className="mx-auto grid max-w-[560px] grid-cols-[48px_1fr_48px] items-center gap-3">
                   <div className="flex justify-center">
@@ -147,16 +159,13 @@ export default function BookPage() {
                 </div>
               </div>
 
-              {/* 텍스트 */}
-              <div className="mt-10 pt-8 pb-16">
+              <div className="mt-10 pb-16 pt-8">
                 <div className="mx-auto max-w-[520px] whitespace-pre-wrap text-center text-[10px] leading-5 text-zinc-800">
                   {(currentText ?? "").trimEnd()}
                 </div>
-                {/* 짧은 구분선 */}
                 <div className="mx-auto mt-[95px] h-px w-1/3 bg-zinc-100" />
               </div>
 
-              {/* 달력: 맨 아래로 이동 */}
               <div className="mt-[24px] pt-8">
                 <div className="mx-auto w-fit">
                   <div className="grid grid-cols-7 gap-[6px]">
