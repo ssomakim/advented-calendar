@@ -2,18 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import letters from "../data/letters.json";
 
 type Phase = "frames" | "toWhite" | "cover" | "toCalendar" | "calendar";
-
-type Letter = {
-  day: number;
-  title: string;
-  images: string[];
-  pageTexts?: string[];
-  text: string;
-  isFinal: boolean;
-};
 
 function pad3(n: number) {
   return String(n).padStart(3, "0");
@@ -37,19 +27,17 @@ export default function HomePage() {
         : which === 2
           ? sfx2Ref.current
           : sfx3Ref.current;
+
     if (!a) return;
 
     a.currentTime = 0;
     a.volume = 0.7;
-    a.play().catch(() => { });
+    a.play().catch(() => {});
   };
-
 
   const router = useRouter();
 
   const FRAME_COUNT = 10;
-
-  // 첫 클릭 전까지 클릭 유도 효과를 계속 보여주기 위한 상태
   const [hasStarted, setHasStarted] = useState(false);
 
   const frameSrcs = useMemo(() => {
@@ -58,34 +46,27 @@ export default function HomePage() {
       arr.push(`/home/frames/${pad3(i)}.jpg`);
     }
     return arr;
-  }, [FRAME_COUNT]);
+  }, []);
 
-  const data = letters as Letter[];
-  const availableDays = useMemo(
-    () => data.map((x) => x.day).sort((a, b) => a - b),
-    [data]
-  );
   const allDays = useMemo(() => rangeDays(1, 25), []);
 
   const [phase, setPhase] = useState<Phase>("frames");
   const [frameIndex, setFrameIndex] = useState(0);
-
   const [imgVisible, setImgVisible] = useState(true);
   const [whiteVisible, setWhiteVisible] = useState(false);
 
   const currentFrame = frameSrcs[frameIndex] ?? null;
 
-  // 이미지 미리 로드
   useEffect(() => {
     frameSrcs.forEach((src) => {
       const img = new Image();
       img.src = src;
     });
+
     const cover = new Image();
     cover.src = "/home/book.jpg";
   }, [frameSrcs]);
 
-  // 프레임 디졸브
   useEffect(() => {
     if (phase !== "frames") return;
     setImgVisible(false);
@@ -93,12 +74,11 @@ export default function HomePage() {
     return () => window.clearTimeout(t);
   }, [frameIndex, phase]);
 
-
   const goNextFrame = () => {
     setHasStarted(true);
 
     if (phase === "frames") {
-      const currentFrameNumber = frameIndex + 1; // 1~10
+      const currentFrameNumber = frameIndex + 1;
 
       if (currentFrameNumber <= 5) {
         playSfx(1);
@@ -107,7 +87,6 @@ export default function HomePage() {
         playSfx(isEven ? 2 : 3);
       }
     }
-
 
     if (frameIndex < FRAME_COUNT - 1) {
       setFrameIndex((v) => v + 1);
@@ -152,8 +131,7 @@ export default function HomePage() {
           </div>
 
           <div className="relative mt-6 w-full max-w-[560px]">
-            {/* frames */}
-            {phase === "frames" || phase === "toWhite" ? (
+            {(phase === "frames" || phase === "toWhite") && (
               <button
                 onClick={goNextFrame}
                 className="group relative block w-full select-none"
@@ -172,7 +150,6 @@ export default function HomePage() {
                   />
                 ) : null}
 
-                {/* 첫 프레임에서만, 클릭 전까지 계속 보이는 클릭 유도 커서 */}
                 {phase === "frames" && frameIndex === 0 && !hasStarted ? (
                   <div className="pointer-events-none absolute inset-0 flex items-center justify-center translate-y-[16px]">
                     <div className="cursor-float cursor-icon">
@@ -184,7 +161,6 @@ export default function HomePage() {
                       </svg>
                       <div className="cursor-ring" />
                     </div>
-
                   </div>
                 ) : null}
 
@@ -196,10 +172,9 @@ export default function HomePage() {
                   }
                 />
               </button>
-            ) : null}
+            )}
 
-            {/* cover */}
-            {phase === "cover" || phase === "toCalendar" ? (
+            {(phase === "cover" || phase === "toCalendar") && (
               <button
                 onClick={coverToCalendar}
                 className="group relative block w-full select-none"
@@ -219,36 +194,24 @@ export default function HomePage() {
                   }
                 />
               </button>
-            ) : null}
+            )}
 
-            {/* calendar */}
-            {phase === "calendar" ? (
+            {phase === "calendar" && (
               <div className="relative">
                 <div className="mx-auto w-fit">
                   <div className="grid grid-cols-7 gap-[6px]">
                     {allDays.map((d) => {
-                      const isAvailable = availableDays.includes(d);
-
-                      if (!isAvailable) {
-                        return (
-                          <div
-                            key={d}
-                            className="aspect-square w-[22px] border border-zinc-100 bg-white"
-                            aria-hidden="true"
-                            title="준비중"
-                          >
-                            <div className="flex h-full items-center justify-center text-[10px] text-zinc-200">
-                              {d}
-                            </div>
-                          </div>
-                        );
-                      }
+                      const isBlinkDay = d === 1;
 
                       return (
                         <button
                           key={d}
                           onClick={() => goBookDay(d)}
-                          className="aspect-square w-[22px] border border-zinc-200 bg-white hover:border-zinc-400"
+                          className={`aspect-square w-[22px] border bg-white hover:border-zinc-400 ${
+                            isBlinkDay
+                              ? "border-zinc-200 home-day-blink"
+                              : "border-zinc-200"
+                          }`}
                           aria-label={`day ${d}`}
                         >
                           <div className="flex h-full items-center justify-center text-[10px] text-zinc-700">
@@ -268,9 +231,8 @@ export default function HomePage() {
                   }
                 />
               </div>
-            ) : null}
+            )}
 
-            {/* 안내 텍스트 */}
             <div className="mt-5 text-center text-xs text-zinc-500">
               {phase === "frames" ? "click the photo to continue" : null}
               {phase === "cover" ? "click the book" : null}
@@ -310,17 +272,30 @@ export default function HomePage() {
         }
 
         .cursor-icon {
-  display: grid;
-  place-items: center;
-}
+          display: grid;
+          place-items: center;
+        }
 
-.cursor-svg {
-  width: 36px;
-  height: 36px;
-  transform: translate(2px, -2px) rotate(-8deg);
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
-}
+        .cursor-svg {
+          width: 36px;
+          height: 36px;
+          transform: translate(2px, -2px) rotate(-8deg);
+          filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+        }
 
+        @keyframes dayBorderBlink {
+          0%,
+          100% {
+            border-color: rgb(228 228 231);
+          }
+          50% {
+            border-color: rgb(24 24 27);
+          }
+        }
+
+        .home-day-blink {
+          animation: dayBorderBlink 1s steps(1, end) infinite;
+        }
       `}</style>
     </main>
   );
