@@ -198,11 +198,10 @@ function BookPageInner() {
                       key={currentImage}
                       src={currentImage}
                       alt={`image ${imgIndex + 1}`}
-                      className={`mx-auto h-auto w-full ${isIntroImage
-                        ? "max-w-[96vw] sm:max-w-[820px] lg:max-w-[920px]"
-                        : "max-w-[420px]"
-                        } ${fadeIn ? "opacity-100" : "opacity-0"
-                        } transition-opacity duration-300`}
+                      className={`mx-auto h-auto ${isIntroImage
+                          ? "w-[96vw] max-w-none sm:w-full sm:max-w-[820px] lg:max-w-[920px]"
+                          : "w-full max-w-[420px]"
+                        } ${fadeIn ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
                     />
                   ) : (
                     <div className="border border-zinc-100 py-16 text-sm text-zinc-600">
