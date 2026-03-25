@@ -126,7 +126,7 @@ export default function HomePage() {
         <div className="-translate-y-[56px] sm:-translate-y-8">
           <div className="w-full text-center">
             <p className="text-[11px] tracking-[0.22em] text-zinc-500">
-              Advented Calendar
+              Advent Calendar
             </p>
           </div>
 

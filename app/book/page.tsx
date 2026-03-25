@@ -199,8 +199,8 @@ function BookPageInner() {
                       src={currentImage}
                       alt={`image ${imgIndex + 1}`}
                       className={`mx-auto h-auto w-full ${isIntroImage
-                          ? "max-w-[820px] lg:max-w-[920px]"
-                          : "max-w-[420px]"
+                        ? "max-w-[96vw] sm:max-w-[820px] lg:max-w-[920px]"
+                        : "max-w-[420px]"
                         } ${fadeIn ? "opacity-100" : "opacity-0"
                         } transition-opacity duration-300`}
                     />

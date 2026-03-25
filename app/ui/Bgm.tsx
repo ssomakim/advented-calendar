@@ -55,19 +55,31 @@ export default function Bgm() {
         <button
           type="button"
           onClick={handleToggle}
-          className="rounded-full border border-zinc-300 bg-white/85 px-4 py-2 text-[11px] tracking-[0.14em] text-zinc-700 shadow-sm backdrop-blur hover:bg-white"
-          aria-label={isPlaying ? "음악 멈추기" : "음악 재생하기"}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 bg-white/85 shadow-sm backdrop-blur transition hover:bg-white"
+          aria-label={isPlaying ? "음악 끄기" : "음악 켜기"}
         >
-          {isPlaying ? "MUSIC OFF" : hasInteracted ? "MUSIC ON" : "PLAY MUSIC"}
+          <img
+            src={isPlaying ? "/icons/music-on.png" : "/icons/music-off.png"}
+            alt=""
+            className="h-7 w-7 object-contain"
+          />
         </button>
 
         <button
           type="button"
           onClick={toggleLanguage}
-          className="rounded-full border border-zinc-300 bg-white/85 px-4 py-2 text-[11px] tracking-[0.14em] text-zinc-700 shadow-sm backdrop-blur hover:bg-white"
-          aria-label={language === "ko" ? "영어 번역 켜기" : "한국어로 보기"}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 bg-white/85 shadow-sm backdrop-blur transition hover:bg-white"
+          aria-label={language === "ko" ? "번역 켜기" : "번역 끄기"}
         >
-          {language === "ko" ? "TRANSLATOR OFF" : "TRANSLATOR ON"}
+          <img
+            src={
+              language === "ko"
+                ? "/icons/translate-off.png"
+                : "/icons/translate-on.png"
+            }
+            alt=""
+            className="h-10 w-10 object-contain"
+          />
         </button>
       </div>
     </>
