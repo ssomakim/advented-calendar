@@ -194,15 +194,20 @@ function BookPageInner() {
 
                 <div className="min-w-0">
                   {currentImage ? (
-                    <img
-                      key={currentImage}
-                      src={currentImage}
-                      alt={`image ${imgIndex + 1}`}
-                      className={`block mx-auto h-auto ${isIntroImage
-                          ? "w-[96vw] max-w-none sm:w-full sm:max-w-[820px] lg:max-w-[920px]"
+                    <div
+                      className={`mx-auto flex justify-center ${isIntroImage
+                          ? "w-full max-w-[calc(100vw-3rem)] sm:max-w-[820px] lg:max-w-[920px]"
                           : "w-full max-w-[420px]"
-                        } ${fadeIn ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
-                    />
+                        }`}
+                    >
+                      <img
+                        key={currentImage}
+                        src={currentImage}
+                        alt={`image ${imgIndex + 1}`}
+                        className={`block h-auto w-full ${fadeIn ? "opacity-100" : "opacity-0"
+                          } transition-opacity duration-300`}
+                      />
+                    </div>
                   ) : (
                     <div className="border border-zinc-100 py-16 text-sm text-zinc-600">
                       이미지가 없어.
