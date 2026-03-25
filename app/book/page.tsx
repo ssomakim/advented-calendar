@@ -198,7 +198,7 @@ function BookPageInner() {
                       key={currentImage}
                       src={currentImage}
                       alt={`image ${imgIndex + 1}`}
-                      className={`mx-auto h-auto ${isIntroImage
+                      className={`block mx-auto h-auto ${isIntroImage
                           ? "w-[96vw] max-w-none sm:w-full sm:max-w-[820px] lg:max-w-[920px]"
                           : "w-full max-w-[420px]"
                         } ${fadeIn ? "opacity-100" : "opacity-0"} transition-opacity duration-300`}
