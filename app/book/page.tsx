@@ -195,9 +195,9 @@ function BookPageInner() {
                 <div className="min-w-0">
                   {currentImage ? (
                     <div
-                      className={`flex justify-center ${isIntroImage
-                          ? "w-screen px-6 sm:w-full sm:max-w-[820px] lg:max-w-[920px] mx-auto"
-                          : "w-full max-w-[420px] mx-auto"
+                      className={`${isIntroImage
+                          ? "relative left-1/2 w-[calc(100vw-3rem)] max-w-none -translate-x-1/2 sm:left-auto sm:w-full sm:max-w-[820px] sm:translate-x-0 lg:max-w-[920px] mx-auto"
+                          : "mx-auto w-full max-w-[420px]"
                         }`}
                     >
                       <img
