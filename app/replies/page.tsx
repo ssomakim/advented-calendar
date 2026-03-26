@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
+import RichText from "@/components/RichText";
 
 type Reply = {
   id: string;
@@ -141,69 +142,69 @@ export default function RepliesPage() {
   }
 
   async function handleDelete(id: string) {
-  const ok = window.confirm("이 답장을 삭제할까요?");
-  if (!ok) return;
+    const ok = window.confirm("이 답장을 삭제할까요?");
+    if (!ok) return;
 
-  setActionError("");
-
-  try {
-    setActionLoading(true);
-
-    const res = await fetch(`/api/reply/${id}`, {
-      method: "DELETE",
-    });
-
-    let data: any = null;
+    setActionError("");
 
     try {
-      data = await res.json();
+      setActionLoading(true);
+
+      const res = await fetch(`/api/reply/${id}`, {
+        method: "DELETE",
+      });
+
+      let data: any = null;
+
+      try {
+        data = await res.json();
+      } catch {
+        data = null;
+      }
+
+      if (!res.ok) {
+        setActionError(data?.error ?? "답장을 삭제하지 못했습니다.");
+        return;
+      }
+
+      if (editingId === id) {
+        cancelEdit();
+      }
+
+      await loadReplies();
     } catch {
-      data = null;
+      setActionError("네트워크 오류가 발생했습니다.");
+    } finally {
+      setActionLoading(false);
     }
-
-    if (!res.ok) {
-      setActionError(data?.error ?? "답장을 삭제하지 못했습니다.");
-      return;
-    }
-
-    if (editingId === id) {
-      cancelEdit();
-    }
-
-    await loadReplies();
-  } catch {
-    setActionError("네트워크 오류가 발생했습니다.");
-  } finally {
-    setActionLoading(false);
   }
-}
 
   return (
-  <main className="mx-auto max-w-[420px] px-6 py-16">
-    <header className="text-center mb-10">
-      <div className="flex items-center justify-center gap-6">
-        <Link
-          href="/"
-          className="text-[10px] tracking-[0.18em] text-neutral-500 opacity-70 hover:opacity-100"
-        >
-          Home
-        </Link>
+    <main className="mx-auto max-w-[420px] px-6 py-16">
+      <header className="text-center mb-10">
+        <div className="flex items-center justify-center gap-6">
+          <Link
+            href="/"
+            className="text-[10px] tracking-[0.18em] text-neutral-500 opacity-70 hover:opacity-100"
+          >
+            Home
+          </Link>
 
-        <Link
-          href="/book?day=1"
-          className="text-[10px] tracking-[0.18em] text-neutral-500 opacity-70 hover:opacity-100"
-        >
-          Calendar
-        </Link>
+          <Link
+            href="/book?day=1"
+            className="text-[10px] tracking-[0.18em] text-neutral-500 opacity-70 hover:opacity-100"
+          >
+            Calendar
+          </Link>
 
-        <Link
-          href="/about"
-          className="text-[10px] tracking-[0.18em] text-neutral-500 opacity-70 hover:opacity-100"
-        >
-          About
-        </Link>
-      </div>
-    </header>
+          <Link
+            href="/about"
+            className="text-[10px] tracking-[0.18em] text-neutral-500 opacity-70 hover:opacity-100"
+          >
+            About
+          </Link>
+        </div>
+      </header>
 
       <h1 className="mb-6 text-center text-sm font-semibold text-neutral-900">
         답장들
@@ -321,9 +322,10 @@ export default function RepliesPage() {
                       {reply.isSecret && isAdmin ? " · 비밀 답장" : ""}
                     </div>
 
-                    <p className="whitespace-pre-wrap text-[12px] leading-5 text-neutral-800">
-                      {reply.message}
-                    </p>
+                    <RichText
+                      text={reply.message}
+                      className="text-[12px] leading-5 text-neutral-800"
+                    />
 
                     {isAdmin && (
                       <div className="mt-4 flex justify-end gap-2">
