@@ -237,7 +237,9 @@ function BookPageInner() {
 
               {currentDay === 1 && imgIndex === 0 && (
                 <p className="mt-2 text-center text-[10px] text-zinc-400 animate-pulse">
-                  화살표를 눌러 옆장으로 넘어가세요.
+                  {language === "en"
+                    ? "Press the arrow to turn the page."
+                    : "화살표를 눌러 옆 장으로 넘어가세요."}
                 </p>
               )}
 
