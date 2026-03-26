@@ -33,20 +33,25 @@ export default function AboutPage() {
       </h1>
 
       <div className="space-y-6 text-[12px] leading-6 text-zinc-700">
-        <p>
-          여기에는 기획의도를 적으면 됩니다~ 저는 지금 주한독일도서관에 있는데요~ 
-          사람이 많이 없다고 해서 왔더니 겁나 많네요
-        </p>
 
         <p>
-          근데 여기 진짜 독일같아요;; 개신기... 바닥 재질이랑 가구때문인가? 
-          체코로 돌아온 것 같은 느낌적인 느낌느낌
+          2025년 여름,
+          </p>
+        
+          <p>
+          소중한 친구와 의미 있는 무언가를 하고 싶어진 마음으로부터 시작된 프로젝트입니다.
+          평소 각자가 좋아하는 것을 담아 어드벤트 캘린더를 만들기로 결정했습니다.
+          크리스마스를 애정하는 만큼, 크리스마스를 고대하는 시간도 애정하기에 즐거운 마음으로 만들었습니다.
+          </p>
+          <p>
+          크리스마스를 기다리며 설레하는 시간을 한 소녀의 이야기와 함께 즐겨주시길 바랍니다.
+          어느 해에도 메리 크리스마스.
         </p>
       </div>
 
       <div className="mt-12 space-y-4 text-[12px] text-zinc-700">
         <div>
-          <p className="text-zinc-400">글 그림</p>
+          <p className="text-zinc-400">글 ・ 그림</p>
           <a
             href="https://instagram.com/suinria/"
             target="_blank"
@@ -58,7 +63,7 @@ export default function AboutPage() {
         </div>
 
         <div>
-          <p className="text-zinc-400">북디자인 웹디자인 웹 개발</p>
+          <p className="text-zinc-400">북디자인 ・ 웹 디자인 ・ 웹 개발</p>
           <a
             href="https://instagram.com/ssomakim/"
             target="_blank"
