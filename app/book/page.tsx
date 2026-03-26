@@ -196,8 +196,8 @@ function BookPageInner() {
                   {currentImage ? (
                     <div
                       className={`${isIntroImage
-                          ? "relative left-1/2 w-[calc(100vw-3rem)] max-w-none -translate-x-1/2 sm:left-auto sm:w-full sm:max-w-[820px] sm:translate-x-0 lg:max-w-[920px] mx-auto"
-                          : "mx-auto w-full max-w-[420px]"
+                        ? "relative left-1/2 w-[calc(100vw-3rem)] max-w-none -translate-x-1/2 sm:left-auto sm:w-full sm:max-w-[820px] sm:translate-x-0 lg:max-w-[920px] mx-auto"
+                        : "mx-auto w-full max-w-[420px]"
                         }`}
                     >
                       <img
@@ -234,6 +234,12 @@ function BookPageInner() {
                 text={(currentText ?? "").trimEnd()}
                 className="mx-auto max-w-[520px] text-center text-[10px] leading-5 text-zinc-800"
               />
+
+              {currentDay === 1 && imgIndex === 0 && (
+                <p className="mt-2 text-center text-[10px] text-zinc-400 animate-pulse">
+                  화살표를 눌러 옆장으로 넘어가세요.
+                </p>
+              )}
 
               {currentDay === 25 && imgIndex === 1 && (
                 <div className="mt-6 text-center">
