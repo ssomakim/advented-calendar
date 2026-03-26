@@ -10,7 +10,7 @@ type Token =
 
 function tokenize(text: string): Token[] {
   const tokens: Token[] = [];
-  const regex = /(\*[^*]+\*|&[^&]+&)/g;
+  const regex = /(\*[^*]+\*|&[^&]+&|\[\[[\s\S]+?\]\])/g;
 
   let lastIndex = 0;
   let match: RegExpExecArray | null;
@@ -34,6 +34,11 @@ function tokenize(text: string): Token[] {
       tokens.push({
         type: "bold",
         value: value.slice(1, -1),
+      });
+    } else if (value.startsWith("[[") && value.endsWith("]]")) {
+      tokens.push({
+        type: "bold",
+        value: value.slice(2, -2),
       });
     }
 
