@@ -9,6 +9,7 @@ import letters, { Letter } from "@/lib/letters";
 import RichText from "@/components/RichText";
 import { useLanguage } from "@/components/LanguageProvider";
 import lettersEn from "@/lib/lettersEn";
+import MagnifierImage from "@/app/ui/MagnifierImage";
 
 function rangeDays(start: number, end: number) {
   const arr: number[] = [];
@@ -200,12 +201,14 @@ function BookPageInner() {
                         : "mx-auto w-full max-w-[420px]"
                         }`}
                     >
-                      <img
+                      <MagnifierImage
                         key={currentImage}
                         src={currentImage}
                         alt={`image ${imgIndex + 1}`}
                         className={`block h-auto w-full ${fadeIn ? "opacity-100" : "opacity-0"
                           } transition-opacity duration-300`}
+                        zoom={3}
+lensSize={185}
                       />
                     </div>
                   ) : (
