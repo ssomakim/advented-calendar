@@ -54,6 +54,7 @@ export default function HomePage() {
   const [frameIndex, setFrameIndex] = useState(0);
   const [imgVisible, setImgVisible] = useState(true);
   const [whiteVisible, setWhiteVisible] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(false);
 
   const currentFrame = frameSrcs[frameIndex] ?? null;
 
@@ -116,6 +117,16 @@ export default function HomePage() {
     router.push(`/book?day=${day}`);
   };
 
+  useEffect(() => {
+    if (phase !== "calendar") return;
+
+    const timer = window.setTimeout(() => {
+      setGuideOpen(true);
+    }, 650);
+
+    return () => window.clearTimeout(timer);
+  }, [phase]);
+
   return (
     <main className="min-h-screen bg-white text-zinc-900">
       <audio ref={sfx1Ref} src="/sfx1.mp3" preload="auto" />
@@ -150,7 +161,7 @@ export default function HomePage() {
                   />
                 ) : null}
 
-                {phase === "frames" && frameIndex === 0 && !hasStarted ? (
+           {phase === "frames" && frameIndex === 0 && !hasStarted ? (
                   <div className="pointer-events-none absolute inset-0 flex items-center justify-center translate-y-[16px]">
                     <div className="cursor-float cursor-icon">
                       <svg viewBox="0 0 24 24" className="cursor-svg" aria-hidden="true">
@@ -172,7 +183,7 @@ export default function HomePage() {
                   }
                 />
               </button>
-            )}
+            )}       
 
             {(phase === "cover" || phase === "toCalendar") && (
               <button
@@ -241,8 +252,44 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+{phase === "calendar" && (
+  <>
+    {guideOpen ? (
+      <div
+        className="fixed right-4 top-4 z-[100] w-[calc(100vw-32px)] max-w-[340px] sm:max-w-[510px] max-h-[calc(100dvh-32px)] overflow-y-auto border border-zinc-200 bg-white p-2 shadow-[0_6px_24px_rgba(0,0,0,0.08)] sm:right-6 sm:top-6"
+        role="dialog"
+        aria-label="How to use"
+      >
+        <button
+  type="button"
+  onClick={() => setGuideOpen(false)}
+  className="absolute right-3 top-3 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-lg text-zinc-500 shadow-sm hover:text-zinc-900"
+  aria-label="Close guide"
+>
+  ×
+</button>
 
-      <style jsx global>{`
+        <img
+          src="/home/guide.png"
+          alt="Advent Calendar 사용방법 안내"
+          className="h-auto w-full"
+        />
+      </div>
+    ) : (
+      <button
+        type="button"
+        onClick={() => setGuideOpen(true)}
+        className="fixed right-4 top-4 z-[100] flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-white text-sm text-zinc-500 shadow-sm hover:border-zinc-400 sm:right-6 sm:top-6"
+        aria-label="Open usage guide"
+        title="How to use"
+      >
+        ?
+      </button>
+    )}
+  </>
+)}
+
+<style jsx global>{`
         @keyframes cursorFloat {
           0% {
             transform: translateY(0);
